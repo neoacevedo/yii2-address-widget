@@ -44,7 +44,7 @@ function autosuggest(inp, key, limit) {
             parentDiv.setAttribute("class", "autocomplete-items"); //<div id="autocomplete-list" class="autocomplete-items"
 
             // Adjuntamos este div como hijo del contenedor de direcciones
-            dirContainer.appendChild(parentDiv);
+            hmContainer.appendChild(parentDiv);
 
             // Usamos el servicio de Open Street Maps, Nominatim
             fetch('https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?query=' + val + '&apiKey=' + key + '&maxresults=' + limit,
@@ -143,5 +143,3 @@ function autosuggest(inp, key, limit) {
         }
     }
 }
-// Inciamos la función autosuggest al cargar la página y le pasamos el elemento "address"
-autosuggest(address);

@@ -21,10 +21,9 @@
  * @param {object} inp el input text.
  * @link https://www.w3schools.com/howto/howto_js_autocomplete.asp 
  */
-function nominatimautosuggest(inp) {
+function placesautosuggest(inp) {
     // variable que almacena el ID del elemento de la lista que estamos enfocando.
     var currentFocus;
-
     /* Añadir el eventListener para el input text, se ejecuta cuando alguien escriba */
     inp.addEventListener("input", function (e) {
         var parentDiv, elementDiv, i, val = this.value;
@@ -45,12 +44,16 @@ function nominatimautosuggest(inp) {
             parentDiv.setAttribute("class", "autocomplete-items"); //<div id="autocomplete-list" class="autocomplete-items"
 
             // Adjuntamos este div como hijo del contenedor de direcciones
-            nomintaimContainer.appendChild(parentDiv);
+            placesContainer.appendChild(parentDiv);
 
             // Usamos el servicio de Open Street Maps, Nominatim
-            fetch('https://nominatim.openstreetmap.org/search?format=json&street=' + val + '&limit=' + limit,
+            fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + val + "&key=" + key,
                 {
-                    method: 'GET'
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                    }
                 }).then(response => {
                     var json = response.json();
                     return json;
@@ -64,12 +67,12 @@ function nominatimautosuggest(inp) {
                             // Creamos un elemento div para cada elemento que coincida con lo que se está escribiendo
                             elementDiv = document.createElement("div");
                             // Poner en negrita las letras coincidentes
-                            // display_name es el elemento en el array del json que contiene una dirección.
-                            elementDiv.innerHTML = "<strong>" + element.display_name.substr(0, val.length) + "</strong>";
+                            // description es el elemento en el array del json que contiene una dirección.
+                            elementDiv.innerHTML = "<strong>" + element.description.substr(0, val.length) + "</strong>";
                             // <div><strong>Texto Coincidente</strong> texto adicional
-                            elementDiv.innerHTML += element.display_name.substr(val.length);
+                            elementDiv.innerHTML += element.description.substr(val.length);
                             // <div><strong>Texto Coincidente</strong> texto adicional <input type="hidden" value="Texto Coincidente texto adicional" />
-                            elementDiv.innerHTML += '<input type="hidden" value="' + element.display_name + '" />';
+                            elementDiv.innerHTML += '<input type="hidden" value="' + element.description + '" />';
 
                             // Si el usuario hace clic sobre el elemento, insertamos el valor del input hidden en el input text de la dirección
                             elementDiv.addEventListener('click', function (e) {

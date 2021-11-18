@@ -20,19 +20,15 @@
 namespace neoacevedo\addresssearch;
 
 /**
- * Widget para generar un cuadro de búsqueda de tipo autocomplete para la búsqueda de direcciones.
- *
- * Este generará un cuadro de búsqueda que mostrará una lista de sugerencia de direcciones, similar al
- * cuadro de búsqueda de direcciones de Google Maps. Los servicios que actualmente soporta son:
- * * Nominatim (Open Street Map)
- * * Google Places Autocomplete
- * * Here Maps
+ * Widget para generar un cuadro de búsqueda de tipo autocomplete para la búsqueda de direcciones a través del servicio Nominatim de Open Street Map.
  *
  * Acepta las opciones comunes de todo campo de texto HTML5.
  *
  */
 class NominatimSearch extends \yii\base\Widget
 {
+    /** @var string Nombre del cuadro de búsqueda */
+    public $name;
 
     /**
      * @var integer
@@ -45,15 +41,19 @@ class NominatimSearch extends \yii\base\Widget
      * Opciones HTML predefinidas para la etiqueta input (par nombre-valor).
      * El atritubo `autocomplete` estará marcado como `off` ya que la idea es que solo sean las sugerencias del servicio.
      */
-    public $options = [
-        "id" => "",
+    public $options = [];
+
+    private $defaultOptions = [
+        "type" => "search",
+        "autocomplete" => "off",
     ];
     
     public function run()
     {
-        return $this->render("input", [
+        return $this->render("nominatim", [
+            "name" => $this->name,
             "limit" => $this->limit,
-            "options" => $this->options
+            "options" => array_merge($this->options, $this->defaultOptions)
         ]);
     }
 }
