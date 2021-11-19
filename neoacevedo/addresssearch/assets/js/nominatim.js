@@ -48,7 +48,7 @@ function nominatimautosuggest(inp) {
             nomintaimContainer.appendChild(parentDiv);
 
             // Usamos el servicio de Open Street Maps, Nominatim
-            fetch('https://nominatim.openstreetmap.org/search?format=json&street=' + val + '&limit=' + limit,
+            fetch('https://nominatim.openstreetmap.org/search?format=json&street=' + val + '&limit=' + nominatimlimit,
                 {
                     method: 'GET'
                 }).then(response => {

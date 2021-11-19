@@ -21,7 +21,7 @@
  * @param {object} inp el input text.
  * @link https://www.w3schools.com/howto/howto_js_autocomplete.asp 
  */
-function autosuggest(inp, key, limit) {
+function hmautosuggest(inp) {
     // variable que almacena el ID del elemento de la lista que estamos enfocando.
     var currentFocus;
     /* Añadir el eventListener para el input text, se ejecuta cuando alguien escriba */
@@ -47,7 +47,7 @@ function autosuggest(inp, key, limit) {
             hmContainer.appendChild(parentDiv);
 
             // Usamos el servicio de Open Street Maps, Nominatim
-            fetch('https://autocomplete.geocoder.ls.hereapi.com/6.2/suggest.json?query=' + val + '&apiKey=' + key + '&maxresults=' + limit,
+            fetch('https://autocomplete.search.hereapi.com/v1/autocomplete?q=' + val + '&apiKey=' + hmApiKey + '&limit=' + hmlimit,
                 {
                     method: 'GET'
                 }).then(response => {
@@ -59,16 +59,16 @@ function autosuggest(inp, key, limit) {
 
                     } else {
                         // iteramos por cada elemento dentro del json devuelto
-                        json.forEach(function (element) {
+                        json.items.forEach(function (element) {
                             // Creamos un elemento div para cada elemento que coincida con lo que se está escribiendo
                             elementDiv = document.createElement("div");
                             // Poner en negrita las letras coincidentes
-                            // display_name es el elemento en el array del json que contiene una dirección.
-                            elementDiv.innerHTML = "<strong>" + element.display_name.substr(0, val.length) + "</strong>";
+                            // title es el elemento en el array del json que contiene una dirección.
+                            elementDiv.innerHTML = "<strong>" + element.title.substr(0, val.length) + "</strong>";
                             // <div><strong>Texto Coincidente</strong> texto adicional
-                            elementDiv.innerHTML += element.display_name.substr(val.length);
+                            elementDiv.innerHTML += element.title.substr(val.length);
                             // <div><strong>Texto Coincidente</strong> texto adicional <input type="hidden" value="Texto Coincidente texto adicional" />
-                            elementDiv.innerHTML += '<input type="hidden" value="' + element.display_name + '" />';
+                            elementDiv.innerHTML += '<input type="hidden" value="' + element.title + '" />';
 
                             // Si el usuario hace clic sobre el elemento, insertamos el valor del input hidden en el input text de la dirección
                             elementDiv.addEventListener('click', function (e) {

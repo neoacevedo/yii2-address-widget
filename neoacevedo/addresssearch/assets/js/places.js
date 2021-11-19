@@ -21,6 +21,7 @@
  * @param {object} inp el input text.
  * @link https://www.w3schools.com/howto/howto_js_autocomplete.asp 
  */
+
 function placesautosuggest(inp) {
     // variable que almacena el ID del elemento de la lista que estamos enfocando.
     var currentFocus;
@@ -46,14 +47,15 @@ function placesautosuggest(inp) {
             // Adjuntamos este div como hijo del contenedor de direcciones
             placesContainer.appendChild(parentDiv);
 
+            var myHeaders = new Headers();
+            myHeaders.append('Access-Control-Allow-Origin', 'https://maps.googleapis.com');
+
             // Usamos el servicio de Open Street Maps, Nominatim
             fetch('https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + val + "&key=" + key,
                 {
                     method: 'GET',
                     mode: 'cors',
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                    }
+                    headers: myHeaders
                 }).then(response => {
                     var json = response.json();
                     return json;

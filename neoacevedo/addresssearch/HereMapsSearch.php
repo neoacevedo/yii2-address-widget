@@ -20,20 +20,25 @@
 namespace neoacevedo\addresssearch;
 
 /**
- * Widget para generar un cuadro de búsqueda de tipo autocomplete para la búsqueda de direcciones.
- *
- * Este generará un cuadro de búsqueda que mostrará una lista de sugerencia de direcciones, similar al
- * cuadro de búsqueda de direcciones de Google Maps. Los servicios que actualmente soporta son:
- * * Nominatim (Open Street Map)
- * * Google Places Autocomplete
- * * Here Maps
+ * Widget para generar un cuadro de búsqueda de tipo autocomplete para la búsqueda de direcciones a través del servicio de Here Maps v7.
  *
  * Acepta las opciones comunes de todo campo de texto HTML5.
  *
+ * La configuración del widget acepta los parámetros [[$name]], [[$apiKey]] y [[$limit]].
+ *
+ * El widget puede ser configurado de la siguiente manera en cualquier vista:
+ *
+ * ```php
+ * echo HereMapsSearch::widget(["name" => "hm", 'limit' => 5, 'options' => ['id' => 'hm', 'class' => 'form-control', 'placeholder' => 'Escriba la dirección.']]);
+ * ```
+ *
+ * @author Néstor Acevedo <clientes at neoacevedo.co>
  */
-class AddressSearch extends \yii\base\Widget
+class HereMapsSearch extends \yii\base\Widget
 {
-
+    /** @var string Nombre del campo de texto */
+    public $name;
+    
     /**
      * @var string
      * Clave de API para los servicios de Google o Here Maps.
@@ -56,7 +61,8 @@ class AddressSearch extends \yii\base\Widget
     
     public function run()
     {
-        return $this->render("input", [
+        return $this->render("heremaps", [
+            "name" => $this->name,
             "limit" => $this->limit,
             "apiKey" => $this->apiKey,
             "options" => $this->options

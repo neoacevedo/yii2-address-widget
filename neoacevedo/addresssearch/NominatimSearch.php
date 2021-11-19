@@ -22,8 +22,17 @@ namespace neoacevedo\addresssearch;
 /**
  * Widget para generar un cuadro de búsqueda de tipo autocomplete para la búsqueda de direcciones a través del servicio Nominatim de Open Street Map.
  *
- * Acepta las opciones comunes de todo campo de texto HTML5.
+ * Acepta las opciones comunes de todo campo de texto HTML5 en el parámetro `options`.
  *
+ * La configuración del widget acepta los parámetros [[$name]] y [[$limit]].
+ *
+ * El widget puede ser configurado de la siguiente manera en cualquier vista:
+ *
+ * ```php
+ * echo NominatimSearch::widget(["name" => "nominatim", 'limit' => 5, 'options' => ['id' => 'nominatim', 'class' => 'form-control', 'placeholder' => 'Escriba la dirección.']]);
+ * ```
+ *
+ * @author Néstor Acevedo <clientes at neoacevedo.co>
  */
 class NominatimSearch extends \yii\base\Widget
 {
@@ -31,23 +40,23 @@ class NominatimSearch extends \yii\base\Widget
     public $name;
 
     /**
-     * @var integer
-     * Límite de resultados.
-     */
+    * @var integer
+    * Límite de resultados.
+    */
     public $limit = 10;
 
     /**
-     * @var array
-     * Opciones HTML predefinidas para la etiqueta input (par nombre-valor).
-     * El atritubo `autocomplete` estará marcado como `off` ya que la idea es que solo sean las sugerencias del servicio.
-     */
+    * @var array
+    * Opciones HTML predefinidas para la etiqueta input (par nombre-valor).
+    * El atritubo `autocomplete` estará marcado como `off` ya que la idea es que solo sean las sugerencias del servicio.
+    */
     public $options = [];
 
     private $defaultOptions = [
         "type" => "search",
         "autocomplete" => "off",
     ];
-    
+
     public function run()
     {
         return $this->render("nominatim", [

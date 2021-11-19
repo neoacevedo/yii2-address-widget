@@ -24,6 +24,15 @@ namespace neoacevedo\addresssearch;
  *
  * Acepta las opciones comunes de todo campo de texto HTML5.
  *
+  * La configuración del widget acepta los parámetros [[$name]] y [[$apiKey]].
+ *
+ * El widget puede ser configurado de la siguiente manera en cualquier vista:
+ *
+ * ```php
+ * echo GooglePlacesSearch::widget(["name" => "places", 'apiKey' => 'YOUR_API_KEY', 'options' => ['id' => 'places', 'class' => 'form-control', 'placeholder' => 'Escriba la dirección.']]);
+ * ```
+ *
+ * @author Néstor Acevedo <clientes at neoacevedo.co>
  */
 class GooglePlacesSearch extends \yii\base\Widget
 {
